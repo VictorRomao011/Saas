@@ -1,73 +1,91 @@
-# React + TypeScript + Vite
+# EstudaFlow AI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Prévia funcional de um SaaS de organização de estudos e projetos**, combinando Técnica Pomodoro, Técnica de Feynman, planejamento com IA, anotações automáticas e um painel de progresso — com mascotes animados como companheiros de estudo.
 
-Currently, two official plugins are available:
+> ⚠️ **Isto é uma prévia de produto com dados simulados.** Não há backend real, banco de dados ou integrações de fato com Notion, Obsidian, GitHub ou Cakto. Todo o "estado" da aplicação vive no navegador (Zustand + `localStorage`) e é resetado a qualquer momento. Os "Agentes de IA" exibidos no app são simulados — não chamam nenhum modelo de linguagem real nesta versão.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Para quem é
 
-## React Compiler
+Estudantes, concurseiros, vestibulandos/ENEM, profissionais em capacitação e criadores de conteúdo educacional que precisam organizar projetos de estudo, manter ritmo de foco e revisar conteúdo de forma mais eficiente.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Funcionalidades
 
-## Expanding the ESLint configuration
+- **Landing page + planos** — apresentação do produto e página de preços (`/`, `/planos`), sem cobrança real.
+- **Login / cadastro simulados** — fluxo de autenticação local, incluindo login social "simulado" (`/login`, `/cadastro`).
+- **Onboarding com escolha de mascote** — diagnóstico inicial de objetivo, prazo e tipo de uso, seguido da escolha de um companheiro animado (`/escolha-mascote`, `/onboarding`).
+- **Dashboard** — visão geral de progresso, projetos ativos e próxima ação recomendada (`/dashboard`).
+- **Projetos e plano de estudos** — criação de projetos (estudo, concurso, programação, etc.) com plano gerado e reorganizável "por IA" (`/projetos`, `/plano/:projectId`).
+- **Sala de foco (Pomodoro)** — timer de foco com pausas e resumo de sessão (`/foco`).
+- **Teste de Feynman** — avaliação simulada de quão bem o usuário consegue explicar um tópico com linguagem simples (`/feynman`).
+- **Anotações** — editor de notas organizadas por projeto/tópico (`/anotacoes`).
+- **Integrações** — pré-visualização de exportação para Notion, Obsidian, GitHub e Cakto (preparado para o futuro, nada é enviado de fato) (`/integracoes`).
+- **Relatórios** — gráficos de evolução e desempenho (`/relatorios`).
+- **Agentes de IA** — painel interno mostrando a arquitetura de 10 agentes especialistas simulados (orquestrador, planejador, pomodoro coach, tutor Feynman, anti-alucinação, etc.) e seus logs (`/agentes`).
+- **Configurações** — preferências de conta e do mascote (`/configuracoes`).
+- **Painel administrativo** — visão interna de usuários, planos e métricas agregadas, acessível por URL direta (`/admin`).
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Princípios de segurança e confiança (aplicados em todo o produto)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Nunca promete aprovação em concurso/vestibular nem cura para falta de foco — apenas linguagem como "ajuda a organizar", "ajuda a manter o ritmo", "facilita a revisão".
+- Nunca inventa dados externos: informações que exigiriam consulta em tempo real são sinalizadas como "necessita pesquisa".
+- Não substitui professores, médicos, psicólogos ou advogados.
+- Dados de projetos e usuários diferentes nunca se misturam.
+- Mascotes não usam voz ou imagem reais sem assets licenciados — o botão de voz é apenas um placeholder ("Prévia de voz autorizada"), sem áudio real.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Stack técnica
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **React 19** + **TypeScript** + **Vite**
+- **Tailwind CSS** + **shadcn/ui** (sobre **Radix UI**), tema escuro com acentos roxo/azul-neon/verde
+- **React Router DOM** para navegação entre as rotas
+- **Zustand** (`persist`) como "backend" simulado em `localStorage`
+- **Recharts** para os gráficos de relatórios
+- **Framer Motion** para animações
+- **Sonner** para notificações (toasts)
+
+## Como executar localmente
+
+Requer Node.js 18+.
+
+```bash
+npm install      # instala as dependências
+npm run dev      # inicia o servidor de desenvolvimento (Vite)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Acesse `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Outros comandos disponíveis:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build    # type-check (tsc -b) + build de produção
+npm run preview  # serve o build de produção localmente
+npm run lint     # roda o ESLint
 ```
+
+### Login de demonstração
+
+Na tela de login, use:
+
+- **E-mail:** `demo@estudaflow.ai`
+- **Senha:** `demo123`
+
+Também é possível criar uma conta nova pela tela de cadastro — os dados ficam apenas no `localStorage` do navegador.
+
+## Estrutura do projeto
+
+```
+src/
+├── pages/              # Uma página por rota (Landing, Dashboard, Plano, Foco, Feynman, ...)
+├── components/
+│   ├── layout/         # Sidebar, Topbar, layouts (público, onboarding, dashboard) e guards de rota
+│   ├── shared/          # Componentes de domínio (ProjectCard, PomodoroTimer, MascotAvatar, ...)
+│   └── ui/              # Primitivos shadcn/ui (button, card, dialog, tabs, ...)
+├── store/
+│   └── appStore.ts      # Estado global (Zustand) — usuário, projetos, planos, notas, agentes...
+├── data/                # Dados simulados (mock data) — usuários, mascotes, agentes, planos, preços
+├── lib/                 # Lógica auxiliar (geração de plano, análise de respostas Feynman, utils)
+└── types/               # Tipos TypeScript compartilhados (User, Project, StudyPlan, ...)
+```
+
+## Status do projeto
+
+Esta é uma prévia de produto (MVP visual/funcional), pensada para validar fluxo e experiência antes de qualquer integração real com backend, IA ou serviços de terceiros.
